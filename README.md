@@ -36,6 +36,7 @@ Special characters (!@#$%^&*)
 Clone or download this repository.
 
 Password Strength Checker.py
+
 Navigate to the folder and run the file:
 
 🏆 Internship Task
