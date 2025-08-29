@@ -9,45 +9,36 @@ class PasswordStrengthChecker:
         self.root.geometry("500x450")
         self.root.resizable(False, False)
         
-        
         self.style = ttk.Style()
         self.style.configure("TLabel", font=("Arial", 12))
         self.style.configure("TButton", font=("Arial", 12))
         
-        
         main_frame = ttk.Frame(root, padding=20)
         main_frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
         
-       
         title_label = ttk.Label(main_frame, text="Password Strength Checker", font=("Arial", 16, "bold"))
         title_label.grid(row=0, column=0, columnspan=2, pady=(0, 20))
         
-       
         ttk.Label(main_frame, text="Enter Password:").grid(row=1, column=0, sticky=tk.W, pady=(0, 5))
         self.password_var = tk.StringVar()
         self.password_entry = ttk.Entry(main_frame, textvariable=self.password_var, show="•", width=30)
         self.password_entry.grid(row=2, column=0, sticky=(tk.W, tk.E), pady=(0, 10))
         self.password_var.trace_add("write", self.check_password_strength)
         
-        
         self.show_password_var = tk.IntVar()
         show_password_cb = ttk.Checkbutton(main_frame, text="Show password", variable=self.show_password_var,
                                           command=self.toggle_password_visibility)
         show_password_cb.grid(row=3, column=0, sticky=tk.W, pady=(0, 20))
         
-        
         ttk.Label(main_frame, text="Strength:").grid(row=4, column=0, sticky=tk.W, pady=(0, 5))
         self.strength_label = ttk.Label(main_frame, text="None", font=("Arial", 12, "bold"))
         self.strength_label.grid(row=5, column=0, sticky=tk.W, pady=(0, 10))
         
-        
         self.progress = ttk.Progressbar(main_frame, orient=tk.HORIZONTAL, length=300, mode='determinate')
         self.progress.grid(row=6, column=0, sticky=(tk.W, tk.E), pady=(0, 20))
         
-        
         criteria_frame = ttk.LabelFrame(main_frame, text="Password Criteria", padding=10)
         criteria_frame.grid(row=7, column=0, sticky=(tk.W, tk.E), pady=(0, 20))
-        
         
         self.length_label = ttk.Label(criteria_frame, text="✓ At least 8 characters")
         self.length_label.grid(row=0, column=0, sticky=tk.W, pady=2)
@@ -64,17 +55,14 @@ class PasswordStrengthChecker:
         self.special_label = ttk.Label(criteria_frame, text="✓ Contains special characters (!@#$%^&*)")
         self.special_label.grid(row=4, column=0, sticky=tk.W, pady=2)
         
-        
         ttk.Label(main_frame, text="Suggestions:").grid(row=8, column=0, sticky=tk.W, pady=(0, 5))
         self.suggestion_text = tk.Text(main_frame, height=4, width=50, font=("Arial", 10), bg="#f0f0f0")
         self.suggestion_text.grid(row=9, column=0, sticky=(tk.W, tk.E))
         self.suggestion_text.config(state=tk.DISABLED)
         
-        
         main_frame.columnconfigure(0, weight=1)
         root.columnconfigure(0, weight=1)
         root.rowconfigure(0, weight=1)
-        
         
         self.update_criteria_indicators("")
     
@@ -89,41 +77,35 @@ class PasswordStrengthChecker:
         strength = 0
         suggestions = []
         
-      
         has_length = len(password) >= 8
         if has_length:
             strength += 20
         else:
             suggestions.append("Add more characters to make at least 8")
         
-      
         has_upper = bool(re.search(r'[A-Z]', password))
         if has_upper:
             strength += 20
         else:
             suggestions.append("Include uppercase letters (A-Z)")
         
-     
         has_lower = bool(re.search(r'[a-z]', password))
         if has_lower:
             strength += 20
         else:
             suggestions.append("Include lowercase letters (a-z)")
         
-       
         has_number = bool(re.search(r'[0-9]', password))
         if has_number:
             strength += 20
         else:
             suggestions.append("Include numbers (0-9)")
         
-        
         has_special = bool(re.search(r'[!@#$%^&*]', password))
         if has_special:
             strength += 20
         else:
             suggestions.append("Include special characters (!@#$%^&*)")
-        
         
         self.progress['value'] = strength
         
@@ -139,10 +121,8 @@ class PasswordStrengthChecker:
         
         self.strength_label.config(text=strength_text, foreground=color)
         
-        
         self.update_criteria_indicators(password)
         
-      
         self.suggestion_text.config(state=tk.NORMAL)
         self.suggestion_text.delete(1.0, tk.END)
         if suggestions:
@@ -154,7 +134,6 @@ class PasswordStrengthChecker:
         self.suggestion_text.config(state=tk.DISABLED)
     
     def update_criteria_indicators(self, password):
-      
         criteria = [
             (len(password) >= 8, self.length_label),
             (bool(re.search(r'[A-Z]', password)), self.upper_label),
@@ -172,5 +151,4 @@ class PasswordStrengthChecker:
 if __name__ == "__main__":
     root = tk.Tk()
     app = PasswordStrengthChecker(root)
-
     root.mainloop()
